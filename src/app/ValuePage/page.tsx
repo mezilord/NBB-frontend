@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-const page = () => {
+const ValuePage = () => {
   const [winningValue, setWinningValue] = useState("123"); //change winning value from here
   return (
     <div>
@@ -14,4 +14,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ValuePage;
