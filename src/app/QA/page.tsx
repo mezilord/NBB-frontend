@@ -77,56 +77,54 @@ const QA = () => {
       setIsCorrect(false);
       // saveEntryToAirTable(false);
     }
-    const [formattedValue, setFormattedValue] = useState("");
-
-    const onChange = (e: any) => {
-      const value = e.target.value;
-      const guessedValue = value.toLocaleString();
-      setGuessValue(guessedValue);
-    };
-
-    return (
-      <div className="w-screen h-screen flex flex-col justify-center items-center">
-        <h1 className="text-5xl font-semibold my-12">Type the Guess</h1>
-        <div className="flex justify-center items-center">
-          <span className="text-red-500 text-4xl">$</span>
-          <input
-            className="border-b-2 text-2xl border-red-400 outline-none bg-transparent p-2 m-4"
-            type="number"
-            value={guessedValue}
-            onChange={onChange}
-          />
-        </div>
-        <button
-          className="px-4 py-2 w-[200px] rounded-md cursor-pointer my-4 mx-auto bg-[#CF001C] text-white"
-          onClick={handleSubmission}
-        >
-          Submit
-        </button>
-        {isAnswered && (
-          <div className="absolute left-0 top-0 z-10 text-white w-screen h-screen justify-center items-center flex flex-col bg-[#CF001C]">
-            {isCorrect ? (
-              <>
-                <ReactConfetti
-                  width={window.innerWidth}
-                  height={window.innerHeight}
-                />
-                <Image width={600} src={winning} alt="winning logo" />
-              </>
-            ) : (
-              <Image width={600} src={losing} className="" alt="winning logo" />
-            )}
-            <Link
-              href="\"
-              className="w-[300px] text-2xl text-center px-4 py-2 my-4 rounded-md bg-yellow-300 text-white cursor-pointer"
-            >
-              Close
-            </Link>
-          </div>
-        )}
-      </div>
-    );
   };
+  const onChange = (e: any) => {
+    const value = e.target.value;
+    const guessedValue = value.toLocaleString();
+    setGuessValue(guessedValue);
+  };
+
+  return (
+    <div className="w-screen h-screen flex flex-col justify-center items-center">
+      <h1 className="text-5xl font-semibold my-12">Type the Guess</h1>
+      <div className="flex justify-center items-center">
+        <span className="text-red-500 text-4xl">$</span>
+        <input
+          className="border-b-2 text-2xl border-red-400 outline-none bg-transparent p-2 m-4"
+          type="number"
+          value={guessedValue}
+          onChange={onChange}
+        />
+      </div>
+      <button
+        className="px-4 py-2 w-[200px] rounded-md cursor-pointer my-4 mx-auto bg-[#CF001C] text-white"
+        onClick={handleSubmission}
+      >
+        Submit
+      </button>
+      {isAnswered && (
+        <div className="absolute left-0 top-0 z-10 text-white w-screen h-screen justify-center items-center flex flex-col bg-[#CF001C]">
+          {isCorrect ? (
+            <>
+              <ReactConfetti
+                width={window.innerWidth}
+                height={window.innerHeight}
+              />
+              <Image width={600} src={winning} alt="winning logo" />
+            </>
+          ) : (
+            <Image width={600} src={losing} className="" alt="winning logo" />
+          )}
+          <Link
+            href="\"
+            className="w-[300px] text-2xl text-center px-4 py-2 my-4 rounded-md bg-yellow-300 text-white cursor-pointer"
+          >
+            Close
+          </Link>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default QA;
