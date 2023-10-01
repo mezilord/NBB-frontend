@@ -1,104 +1,134 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-
-const questions = [
-  {
-    question: "What is the capital of France?",
-    options: ["London", "Berlin", "Madrid", "Rome", "Paris"],
-    answer: "Paris",
-    canAsk: true,
-  },
-  {
-    question: "Which planet is known as the Red Planet?",
-    options: ["Earth", "Mars", "Jupiter", "Venus", "Saturn"],
-    answer: "Mars",
-    canAsk: true,
-  },
-  {
-    question: "What is the largest mammal in the world?",
-    options: [
-      "African Elephant",
-      "Blue Whale",
-      "Giraffe",
-      "Hippopotamus",
-      "Rhinoceros",
-    ],
-    answer: "Blue Whale",
-    canAsk: true,
-  },
-  {
-    question: "What gas do plants absorb from the atmosphere?",
-    options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen", "Methane"],
-    answer: "Carbon Dioxide",
-    canAsk: true,
-  },
-];
-
-const QA = () => {
-  const [questionObj, setQuestionObj] = useState(questions[0]);
-  const [selectedOption, setSelectedOption] = useState("");
+import React, { useState } from "react";
+import axios from "axios";
+import winning from "../../../public/winning.png";
+import losing from "../../../public/losing.png";
+import Image from "next/image";
+import ReactConfetti from "react-confetti";
+import Airtable from "airtable"
+const question = {
+  options: [
+    "$10,000",
+    "$25,000",
+    "$50,000",
+    "$100,000",
+    "$65,000",
+    "$1,000,000",
+    "$2,000,000",
+  ],
+};
+const QA = ({ CPR, Phone, Prize }: any) => {
+  const answer = "123";
   const [isAnswered, setIsAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [guessedValue, setGuessValue] = useState("");
 
-  const setQuestion = () => {
-    // Find a random question that can be asked
-    let randomQuestion =
-      questions[Math.floor(Math.random() * questions.length)];
+  const saveEntryToAirTable = async (isWin: boolean) => {
+    // try {
+    //   const res = await axios.post(
+    //     "https://api.airtable.com/v0/appHOwBAP6ICv8ERN/GUESS%20Question%20Game",
+    //     {
+    //       records: [
+    //         {
+    //           fields: {
+    //             CPR,
+    //             Phone,
+    //             Prize,
+    //             Win: isWin,
+    //           },
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       headers: {
+    //         'Authorization': "Bearer patqsFkj6vXnhdVvx.72cb06f684731e0d240e3faea32137bd91e7fd29c21bde7e50c3a08ac1dcb366",
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
+    //   console.log(res.data);
+    // } catch (error) {
+    //   console.error(error);
+    // }
 
-    while (!randomQuestion.canAsk) {
-      randomQuestion = questions[Math.floor(Math.random() * questions.length)];
-    }
+    var base = new Airtable({
+      apiKey:
+        "patqsFkj6vXnhdVvx.72cb06f684731e0d240e3faea32137bd91e7fd29c21bde7e50c3a08ac1dcb366",
+    }).base("appHOwBAP6ICv8ERN");
 
-    setQuestionObj(randomQuestion);
-    setSelectedOption("");
-    setIsCorrect(false);
+    base("GUESS Question Game").create(
+      {
+        fields: {
+          CPR,
+          Phone,
+          Prize,
+          Win: isWin,
+        },
+      },
+      function (err: any, records: any) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        records.forEach(function (record: any) {
+          console.log(record.getId());
+        });
+      }
+    );
   };
+  const handleSubmission = () => {
+    setIsAnswered(true);
+    if (answer == guessedValue) {
+      setIsCorrect(true);
+      saveEntryToAirTable(true);
+    } else {
+      setIsCorrect(false);
+      saveEntryToAirTable(false);
+    }
+  };
+  const [formattedValue, setFormattedValue] = useState("");
 
-  useEffect(() => {
-    setQuestion();
-  }, []);
-
-  const handleOptionChange = (option) => {
-    setSelectedOption(option);
-    setIsCorrect(option === questionObj.answer);
+  const onChange = (e) => {
+    const value = e.target.value;
+    const guessedValue = value.toLocaleString();
+    setGuessValue(guessedValue);
   };
 
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center">
-      <h1 className="text-5xl font-semibold my-8">Guess the Answer</h1>
-      <p className="text-2xl font-normal mb-10">{questionObj.question}</p>
-
-      <ul>
-        {questionObj.options.map((option, index) => (
-          <li key={index} className="text-xl">
-            <label>
-              <input
-                className="mx-2 my-4"
-                type="radio"
-                name="options"
-                value={option}
-                checked={selectedOption === option}
-                onChange={() => handleOptionChange(option)}
-              />
-              {option}
-            </label>
-          </li>
-        ))}
-      </ul>
-
-      <button className="px-4 py-2 w-[200px] rounded-md cursor-pointer my-2 mx-auto bg-[#CF001C] text-white" onClick={() => setIsAnswered(true)}>Submit</button>
+      <h1 className="text-5xl font-semibold my-12">Type the Guess</h1>
+      <div className="flex justify-center items-center">
+        <input
+          className="border-b-2 text-2xl border-red-400 outline-none bg-transparent p-2 m-4"
+          type="number"
+          value={guessedValue}
+          onChange={onChange}
+        />
+        <span className="text-red-500 text-4xl">$</span>
+      </div>
+      <button
+        className="px-4 py-2 w-[200px] rounded-md cursor-pointer my-4 mx-auto bg-[#CF001C] text-white"
+        onClick={handleSubmission}
+      >
+        Submit
+      </button>
       {isAnswered && (
         <div className="absolute left-0 top-0 z-10 text-white w-screen h-screen justify-center items-center flex flex-col bg-[#CF001C]">
           {isCorrect ? (
-            <h1 className="text-5xl font-bold">YOU WON</h1>
+            <>
+              <ReactConfetti
+                width={window.innerWidth}
+                height={window.innerHeight}
+              />
+              <Image width={600} src={winning} alt="winning logo" />
+            </>
           ) : (
-            <h1 className="text-5xl font-bold">YOU LOST</h1>
+            <Image width={600} src={losing} className="" alt="winning logo" />
           )}
-          <p className="my-4 text-2xl">Thank you for participating.</p>
           <Link
             href="\"
-            className="px-4 py-2 rounded-md bg-yellow-300 text-white cursor-pointer"
+            className="w-[300px] text-2xl text-center px-4 py-2 my-4 rounded-md bg-yellow-300 text-white cursor-pointer"
           >
             Close
           </Link>
