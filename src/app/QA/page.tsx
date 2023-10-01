@@ -99,13 +99,13 @@ const QA = ({ CPR, Phone, Prize }: any) => {
     <div className="w-screen h-screen flex flex-col justify-center items-center">
       <h1 className="text-5xl font-semibold my-12">Type the Guess</h1>
       <div className="flex justify-center items-center">
+        <span className="text-red-500 text-4xl">$</span>
         <input
           className="border-b-2 text-2xl border-red-400 outline-none bg-transparent p-2 m-4"
           type="number"
           value={guessedValue}
           onChange={onChange}
         />
-        <span className="text-red-500 text-4xl">$</span>
       </div>
       <button
         className="px-4 py-2 w-[200px] rounded-md cursor-pointer my-4 mx-auto bg-[#CF001C] text-white"
