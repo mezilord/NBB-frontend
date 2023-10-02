@@ -11,7 +11,7 @@ import { AppContext } from "../context/data";
 import { AnimatePresence, motion } from "framer-motion";
 import coin from '../../../public/coin.png'
 const QA = () => {
-  const { CPR, Phone, Prize, answer } = React.useContext(AppContext);
+  const { CPR, Phone, Prize, answer, setCPR, setPhone } = React.useContext(AppContext);
   const [isAnswered, setIsAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +52,8 @@ const QA = () => {
       setIsCorrect(false);
       saveEntryToAirTable(false);
     }
-    
+    setCPR("");
+    setPhone("");
   };
   const onChange = (e: any) => {
     const value = e.target.value;
