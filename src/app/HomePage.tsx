@@ -5,6 +5,8 @@ import logo from "../../public/logo2.png";
 import Airtable from "airtable";
 import { useRouter } from "next/navigation";
 import { AppContext } from "./context/data";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
+
 const HomePage = () => {
   const { CPR, Phone, setCPR, setPhone } = useContext(AppContext);
   const [existingPhoneNumbers, setExistingPhoneNumbers] = useState([]);
@@ -44,6 +46,7 @@ const HomePage = () => {
     };
     getEntriesFromAirTable();
   }, []);
+  const handle = useFullScreenHandle();
 
   const router = useRouter();
   const handleClick = (e: any) => {
@@ -56,42 +59,44 @@ const HomePage = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4  text-slate-900 bg-[#CF001C] w-screen h-screen justify-center items-center">
-      <Image src={logo} alt="Logo" width={150} />
-      <form
-        onSubmit={(e) => handleClick(e)}
-        className="border-2 rounded-lg p-4 my-8 flex flex-col bg-slate-100 shadow-lg shadow-slate-400 drop-shadow-2xl transition duration-300"
-      >
-        <div className="flex flex-col relative z-10">
-          <label className="font-semibold text-lg">CPR</label>
-          <input
-            required
-            type="text"
-            value={CPR}
-            onChange={(e) => setCPR(e.target.value)}
-            className="outline-none p-2 border border-slate-300 rounded-md mt-2 bg-transparent w-[300px] focus:outline-none"
-          />
-        </div>
-        <div className="flex flex-col my-4 relative z-10">
-          <label className="font-semibold text-lg text-slate-900">
-            Phone Number
-          </label>
-          <input
-            required
-            type="text"
-            value={Phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="outline-none p-2 border border-slate-300 rounded-md mt-2 bg-transparent w-[300px] focus:outline-none"
-          />
-        </div>
-        <button
-          type="submit"
-          className="border w-full text-center font-semibold px-4 py-2 my-4 bg-yellow-400 hover:bg-yellow-500 transition duration-300 text-slate-900 rounded-md mx-auto relative z-10"
+    <FullScreen handle={handle}>
+      <div className="flex flex-col gap-4  text-slate-900 bg-[#CF001C] w-screen h-screen justify-center items-center">
+        <Image src={logo} alt="Logo" width={150} />
+        <form
+          onSubmit={(e) => handleClick(e)}
+          className="border-2 rounded-lg p-4 my-8 flex flex-col bg-slate-100 shadow-lg shadow-slate-400 drop-shadow-2xl transition duration-300"
         >
-          Start Game
-        </button>
-      </form>
-    </div>
+          <div className="flex flex-col relative z-10">
+            <label className="font-semibold text-lg">CPR</label>
+            <input
+              required
+              type="text"
+              value={CPR}
+              onChange={(e) => setCPR(e.target.value)}
+              className="outline-none p-2 border border-slate-300 rounded-md mt-2 bg-transparent w-[300px] focus:outline-none"
+            />
+          </div>
+          <div className="flex flex-col my-4 relative z-10">
+            <label className="font-semibold text-lg text-slate-900">
+              Phone Number
+            </label>
+            <input
+              required
+              type="text"
+              value={Phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="outline-none p-2 border border-slate-300 rounded-md mt-2 bg-transparent w-[300px] focus:outline-none"
+            />
+          </div>
+          <button
+            type="submit"
+            className="border w-full text-center font-semibold px-4 py-2 my-4 bg-yellow-400 hover:bg-yellow-500 transition duration-300 text-slate-900 rounded-md mx-auto relative z-10"
+          >
+            Start Game
+          </button>
+        </form>
+      </div>
+    </FullScreen>
   );
 };
 
