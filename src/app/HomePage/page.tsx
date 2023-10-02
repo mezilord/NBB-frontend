@@ -4,7 +4,6 @@ import Image from "next/image";
 import logo from "../../../public/logo2.png";
 import Airtable from "airtable";
 import { useRouter } from "next/navigation";
-import { useFullScreenHandle } from "react-full-screen";
 import { AnimatePresence, motion } from "framer-motion";
 import { AppContext } from "../context/data";
 
@@ -12,6 +11,7 @@ const HomePage = () => {
   const { CPR, Phone, setCPR, setPhone } = useContext(AppContext);
   const [existingPhoneNumbers, setExistingPhoneNumbers] = useState([]);
   const [existingCPRs, setExistingCPRs] = useState([]);
+
   useEffect(() => {
     const getEntriesFromAirTable = async () => {
       var base = new Airtable({
@@ -47,7 +47,7 @@ const HomePage = () => {
     };
     getEntriesFromAirTable();
   }, []);
-  const handle = useFullScreenHandle();
+
 
   const router = useRouter();
   const handleClick = (e: any) => {
