@@ -7,14 +7,14 @@ export function AppContextProvider({ children }: any) {
   const [CPR, setCPR] = useState("");
   const [Phone, setPhone] = useState("");
   const [answer, setAnswer] = useState("25000");
-  const [prize, setPrize] = useState("25000");
+  const [Prize, setPrize] = useState("25000");
   const contextValue = {
     CPR,
     setCPR,
     Phone,
     setPhone,
     answer,
-    prize,
+    Prize,
     setAnswer,
     setPrize,
   };
