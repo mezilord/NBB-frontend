@@ -111,7 +111,7 @@ const QA = () => {
             />
             <h1 className="text-5xl font-semibold my-12">Guess the Value</h1>
             <div className="flex flex-col justify-center items-center">
-              <div className="flex flex-col justify-center mx-auto items-center gap-4">
+              <div className="flex flex-col text-2xl justify-center mx-auto items-center gap-4">
                 <div className="flex gap-3">
                   <input
                     type="radio"
