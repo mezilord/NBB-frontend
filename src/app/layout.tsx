@@ -2,7 +2,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { AppContextProvider } from "./context/data";
-import { FullScreen, useFullScreenHandle } from "react-full-screen";
+// import { FullScreen, useFullScreenHandle } from "react-full-screen";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
@@ -10,14 +10,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const handle = useFullScreenHandle();
+  // const handle = useFullScreenHandle();
   return (
-    <FullScreen handle={handle}>
-      <html lang="en">
+    <html lang="en">
+      {/* <FullScreen handle={handle}> */}
         <AppContextProvider>
           <body className={inter.className}>{children}</body>
         </AppContextProvider>
-      </html>
-    </FullScreen>
+      {/* </FullScreen> */}
+    </html>
   );
 }
