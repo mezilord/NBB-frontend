@@ -48,9 +48,11 @@ const HomePage = () => {
   const router = useRouter();
   const handleClick = (e: any) => {
     e.preventDefault();
-    if (existingCPRs.includes(CPR) || existingPhoneNumbers.includes(Phone))
+    if (existingCPRs.includes(CPR) || existingPhoneNumbers.includes(Phone)) {
       alert("You have already played the game");
-    else router.push("/ChoosePage");
+      setCPR("");
+      setPhone("");
+    } else router.push("/ChoosePage");
   };
 
   return (
