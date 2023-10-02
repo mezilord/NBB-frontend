@@ -1,35 +1,26 @@
-"use client"
-import { AnimatePresence, motion } from "framer-motion";
-import HomePage from "./HomePage";
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const router = useRouter();
+  const handleClick = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+      setIsFullscreen(true);
+      router.push("/HomePage");
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        // key={router.route}
-        initial="initialState"
-        animate="animateState"
-        exit="exitState"
-        transition={{
-          duration: 0.75,
-        }}
-        variants={{
-          initialState: {
-            opacity: 0,
-            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
-          },
-          animateState: {
-            opacity: 1,
-            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
-          },
-          exitState: {
-            clipPath: "polygon(50% 0, 50% 0, 50% 100%, 50% 100%)",
-          },
-        }}
-        className="base-page-size"
-      >
-        <HomePage />
-      </motion.div>
-    </AnimatePresence>
+    <div className="flex justify-center items-center w-screen h-screen">
+      <button className="p-4 border bg-black text-white text-2xl" onClick={handleClick}>
+        {isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+      </button>
+    </div>
   );
 }

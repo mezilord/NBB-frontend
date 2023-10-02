@@ -6,15 +6,17 @@ export const AppContext = createContext(undefined);
 export function AppContextProvider({ children }: any) {
   const [CPR, setCPR] = useState("");
   const [Phone, setPhone] = useState("");
-  const answer = "25000";
-  const prize = "25000";
+  const [answer, setAnswer] = useState("25000");
+  const [prize, setPrize] = useState("25000");
   const contextValue = {
     CPR,
     setCPR,
     Phone,
     setPhone,
     answer,
-    prize
+    prize,
+    setAnswer,
+    setPrize,
   };
 
   return (

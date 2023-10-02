@@ -131,7 +131,7 @@ const QA = () => {
                 />
               )}
               <Link
-                href="\"
+                href="\HomePage"
                 className="w-[300px] text-2xl text-center px-4 py-2 my-4 rounded-md bg-yellow-300 text-white cursor-pointer"
               >
                 Close

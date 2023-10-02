@@ -1,15 +1,30 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AppContext } from "../context/data";
 
 const ValuePage = () => {
-  const [winningValue, setWinningValue] = useState("123"); //change winning value from here
+  const { answer, setAnswer, prize, setPrize } = useContext(AppContext);
+
   return (
     <div>
-      <input
-        type="text"
-        value={winningValue}
-        onChange={(e) => setWinningValue(e.target.value)}
-      />
+      <div className="flex gap-2 m-2">
+        <label>Answer</label>
+        <input
+          className="border"
+          type="text"
+          value={answer}
+          onChange={(e) => setAnswer(e.target.value)}
+        />
+      </div>
+      <div className="flex gap-2 m-2">
+        <label>Prize</label>
+        <input
+          className="border"
+          type="text"
+          value={prize}
+          onChange={(e) => setPrize(e.target.value)}
+        />
+      </div>
     </div>
   );
 };

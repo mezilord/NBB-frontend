@@ -9,7 +9,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  document.documentElement.requestFullscreen();
+  document.documentElement.requestFullscreen({ navigationUI: 'hide' });
 
   return (
     <html lang="en">
