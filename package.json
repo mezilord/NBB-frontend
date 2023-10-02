@@ -15,7 +15,8 @@
     "next": "latest",
     "react": "latest",
     "react-confetti": "^6.1.0",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-full-screen": "^1.1.1"
   },
   "devDependencies": {
     "@types/node": "latest",
