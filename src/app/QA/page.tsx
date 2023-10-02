@@ -1,81 +1,51 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
-// import axios from "axios";
 import winning from "../../../public/winning.png";
 import losing from "../../../public/losing.png";
 import Image from "next/image";
 import ReactConfetti from "react-confetti";
-// import Airtable from "airtable"
+import Airtable from "airtable";
+import pattern from "../../../public/pattern.png";
+import { AppContext } from "../context/data";
+import { AnimatePresence, motion } from "framer-motion";
 
-// { CPR, Phone, Prize }: any
 const QA = () => {
-  const answer = "123";
+  const { CPR, Phone, Prize, answer } = React.useContext(AppContext);
   const [isAnswered, setIsAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [guessedValue, setGuessValue] = useState("");
 
-  // const saveEntryToAirTable = async (isWin: boolean) => {
-  // try {
-  //   const res = await axios.post(
-  //     "https://api.airtable.com/v0/appHOwBAP6ICv8ERN/GUESS%20Question%20Game",
-  //     {
-  //       records: [
-  //         {
-  //           fields: {
-  //             CPR,
-  //             Phone,
-  //             Prize,
-  //             Win: isWin,
-  //           },
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       headers: {
-  //         'Authorization': "Bearer patqsFkj6vXnhdVvx.72cb06f684731e0d240e3faea32137bd91e7fd29c21bde7e50c3a08ac1dcb366",
-  //         "Content-Type": "application/json",
-  //       },
-  //     }
-  //   );
-  //   console.log(res.data);
-  // } catch (error) {
-  //   console.error(error);
-  // }
+  const saveEntryToAirTable = async (isWin: any) => {
+    var base = new Airtable({
+      apiKey:
+        "patqsFkj6vXnhdVvx.72cb06f684731e0d240e3faea32137bd91e7fd29c21bde7e50c3a08ac1dcb366",
+    }).base("appHOwBAP6ICv8ERN");
 
-  //   var base = new Airtable({
-  //     apiKey:
-  //       "patqsFkj6vXnhdVvx.72cb06f684731e0d240e3faea32137bd91e7fd29c21bde7e50c3a08ac1dcb366",
-  //   }).base("appHOwBAP6ICv8ERN");
-
-  //   base("GUESS Question Game").create(
-  //     {
-  //       fields: {
-  //         // CPR,
-  //         Phone,
-  //         Prize,
-  //         Win: isWin,
-  //       },
-  //     },
-  //     function (err: any, records: any) {
-  //       if (err) {
-  //         console.error(err);
-  //         return;
-  //       }
-  //       records.forEach(function (record: any) {
-  //         console.log(record.getId());
-  //       });
-  //     }
-  //   );
-  // };
+    base("GUESS Question Game").create(
+      {
+        CPR,
+        Phone,
+        Prize,
+        Timestamp: new Date().toISOString(),
+        WIN: isWin ? "1" : "0",
+      },
+      function (err: any) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+      }
+    );
+  };
   const handleSubmission = () => {
     setIsAnswered(true);
     if (answer == guessedValue) {
       setIsCorrect(true);
-      // saveEntryToAirTable(true);
+      saveEntryToAirTable(true);
     } else {
       setIsCorrect(false);
-      // saveEntryToAirTable(false);
+      saveEntryToAirTable(false);
     }
   };
   const onChange = (e: any) => {
@@ -85,13 +55,38 @@ const QA = () => {
   };
 
   return (
+    <AnimatePresence mode="wait">
+    <motion.div
+      // key={router.route}
+      initial="initialState"
+      animate="animateState"
+      exit="exitState"
+      transition={{
+        duration: 0.75,
+      }}
+      variants={{
+        initialState: {
+          opacity: 0,
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
+        },
+        animateState: {
+          opacity: 1,
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
+        },
+        exitState: {
+          clipPath: "polygon(50% 0, 50% 0, 50% 100%, 50% 100%)",
+        },
+      }}
+      className="base-page-size"
+    >
     <div className="w-screen h-screen flex flex-col justify-center items-center">
+      <Image alt="bg" className="absolute top-0 left-0 w-screen h-screen opacity-40 -z-10" src={pattern} />
       <h1 className="text-5xl font-semibold my-12">Type the Guess</h1>
       <div className="flex justify-center items-center">
         <span className="text-red-500 text-4xl">$</span>
         <input
           className="border-b-2 text-2xl border-red-400 outline-none bg-transparent p-2 m-4"
-          type="number"
+          type="text"
           value={guessedValue}
           onChange={onChange}
         />
@@ -124,6 +119,8 @@ const QA = () => {
         </div>
       )}
     </div>
+    </motion.div>
+    </AnimatePresence>
   );
 };
 

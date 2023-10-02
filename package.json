@@ -11,6 +11,7 @@
   "dependencies": {
     "airtable": "^0.12.2",
     "axios": "^1.5.1",
+    "framer-motion": "^10.16.4",
     "next": "latest",
     "react": "latest",
     "react-confetti": "^6.1.0",
