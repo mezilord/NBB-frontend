@@ -5,6 +5,7 @@ export const AppContext = createContext(undefined);
 
 export function AppContextProvider({ children }: any) {
   const [CPR, setCPR] = useState("");
+  const [winnerCPR, _] = useState("321");
   const [Phone, setPhone] = useState("");
   const [Color, setColor] = useState(); //B: Black, R: Red, Y: Yellow
   const [answer, setAnswer] = useState("25000");
@@ -13,6 +14,7 @@ export function AppContextProvider({ children }: any) {
 
   const contextValue = {
     CPR,
+    winnerCPR,
     setCPR,
     Phone,
     setPhone,

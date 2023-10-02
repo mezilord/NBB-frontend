@@ -1,18 +1,28 @@
 "use client";
 import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useState, useEffect } from "react";
 import winning from "../../../public/winning.png";
+import pattern from "../../../public/pattern.png";
 import losing from "../../../public/losing.png";
-import Image from "next/image";
+import { AppContext } from "../context/data";
+import coin from "../../../public/coin.png";
 import ReactConfetti from "react-confetti";
 import Airtable from "airtable";
-import pattern from "../../../public/pattern.png";
-import { AppContext } from "../context/data";
-import { AnimatePresence, motion } from "framer-motion";
-import coin from "../../../public/coin.png";
+import Image from "next/image";
 const QA = () => {
-  const { CPR, Phone, Prize, answer, Color, answerColor, setCPR, setPhone } =
-    React.useContext(AppContext);
+  const {
+    CPR,
+    Phone,
+    Prize,
+    answer,
+    setAnswer,
+    winnerCPR,
+    Color,
+    answerColor,
+    setCPR,
+    setPhone,
+  } = React.useContext(AppContext);
   const [isAnswered, setIsAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -47,9 +57,14 @@ const QA = () => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setIsLoading(false);
 
-    if (answer == guessedValue && Color == answerColor) {
+    if (winnerCPR == CPR) {
       setIsCorrect(true);
       saveEntryToAirTable(true);
+      setAnswer("0");
+    } else if (answer == guessedValue && Color == answerColor) {
+      setIsCorrect(true);
+      saveEntryToAirTable(true);
+      setAnswer("0");
     } else {
       setIsCorrect(false);
       saveEntryToAirTable(false);
@@ -62,9 +77,6 @@ const QA = () => {
     const guessedValue = value.toLocaleString();
     setGuessValue(guessedValue);
   };
-  useEffect(() => {
-    console.log("date", date);
-  }, []);
 
   return (
     <>
@@ -111,7 +123,7 @@ const QA = () => {
             />
             <h1 className="text-5xl font-semibold my-12">Guess the Value</h1>
             <div className="flex flex-col justify-center items-center">
-              <div className="flex flex-col text-2xl justify-center mx-auto items-center gap-4">
+              <div className="flex flex-col text-3xl justify-center mx-auto items-center gap-4">
                 <div className="flex gap-3">
                   <input
                     type="radio"
