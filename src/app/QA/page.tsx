@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, color, motion } from "framer-motion";
 import React, { useState, useEffect } from "react";
 import winning from "../../../public/winning.png";
 import pattern from "../../../public/pattern.png";
@@ -10,24 +10,34 @@ import coin from "../../../public/coin.png";
 import ReactConfetti from "react-confetti";
 import Airtable from "airtable";
 import Image from "next/image";
+import axios from "axios";
+
 const QA = () => {
-  const {
-    CPR,
-    Phone,
-    Prize,
-    answer,
-    setAnswer,
-    winnerCPR,
-    Color,
-    answerColor,
-    setCPR,
-    setPhone,
-  } = React.useContext(AppContext);
+  const { CPR, Phone, Prize, winnerCPR, Color, answerColor, setCPR, setPhone } =
+    React.useContext(AppContext);
   const [isAnswered, setIsAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [guessedValue, setGuessValue] = useState("");
+  const [answer, setAnswer] = useState("");
   const date = new Date().toISOString();
+
+  useEffect(() => {
+    const fetchRecord = async () => {
+      try {
+        const response = await axios.get(
+          "https://temp-be-flax.vercel.app/getRecord"
+        );
+        const data = response.data;
+        setAnswer(data.Answer.answer);
+        console.log(answer)
+      } catch (error) {
+        console.error("Error fetching record:", error);
+      }
+    };
+
+    fetchRecord();
+  }, []);
 
   const saveEntryToAirTable = async (isWin: any) => {
     var base = new Airtable({
@@ -51,7 +61,10 @@ const QA = () => {
       }
     );
   };
+
   const handleSubmission = async () => {
+    console.log('guess',typeof(guessedValue))
+    console.log('answer',typeof(answer))
     setIsAnswered(true);
     setIsLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -60,11 +73,11 @@ const QA = () => {
     if (winnerCPR == CPR) {
       setIsCorrect(true);
       saveEntryToAirTable(true);
-      setAnswer("0");
-    } else if (answer == guessedValue && Color == answerColor) {
+      updateRecord();
+    } else if (answer == guessedValue && color == answerColor) {
       setIsCorrect(true);
       saveEntryToAirTable(true);
-      setAnswer("0");
+      updateRecord();
     } else {
       setIsCorrect(false);
       saveEntryToAirTable(false);
@@ -72,10 +85,25 @@ const QA = () => {
     setCPR("");
     setPhone("");
   };
+
   const onChange = (e: any) => {
     const value = e.target.value;
     const guessedValue = value.toLocaleString();
     setGuessValue(guessedValue);
+  };
+
+  const updateRecord = async () => {
+    try {
+      const response = await axios.put(
+        "https://temp-be-flax.vercel.app/setRecord",
+        {
+          answer: "0",
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.error("Error updating record:", error);
+    }
   };
 
   return (

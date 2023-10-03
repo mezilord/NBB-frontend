@@ -11,7 +11,9 @@
   "dependencies": {
     "airtable": "^0.12.2",
     "axios": "^1.5.1",
+    "encoding": "^0.1.13",
     "framer-motion": "^10.16.4",
+    "mongoose": "^7.5.3",
     "next": "latest",
     "react": "latest",
     "react-confetti": "^6.1.0",
