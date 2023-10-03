@@ -74,7 +74,7 @@ const QA = () => {
       setIsCorrect(true);
       saveEntryToAirTable(true);
       updateRecord();
-    } else if (answer == guessedValue && color == answerColor) {
+    } else if (answer == guessedValue && Color == answerColor) {
       setIsCorrect(true);
       saveEntryToAirTable(true);
       updateRecord();
