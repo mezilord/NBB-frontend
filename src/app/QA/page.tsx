@@ -49,7 +49,7 @@ const QA = () => {
       {
         CPR,
         Phone,
-        Prize,
+        Prize: guessedValue,
         Timestamp: date,
         WIN: isWin ? "1" : "0",
       },
