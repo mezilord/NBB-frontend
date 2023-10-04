@@ -66,25 +66,25 @@ const ChoosePage = () => {
               />
             </div>
             <div
-              onClick={() => navigateToQAPage("Y")}
-              className="hover:scale-105 cursor-pointer duration-200"
-            >
-              <Image
-                className="-my-14"
-                width={250}
-                src={briefcase2}
-                alt="yellow box"
-              />
-            </div>
-            <div
               onClick={() => navigateToQAPage("B")}
               className="hover:scale-105 cursor-pointer duration-200"
             >
               <Image
                 className="-my-14"
                 width={250}
-                src={briefcase3}
+                src={briefcase2}
                 alt="black box"
+              />
+            </div>
+            <div
+              onClick={() => navigateToQAPage("Y")}
+              className="hover:scale-105 cursor-pointer duration-200"
+            >
+              <Image
+                className="-my-14"
+                width={250}
+                src={briefcase3}
+                alt="yellow box"
               />
             </div>
           </div>
