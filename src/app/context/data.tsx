@@ -10,7 +10,7 @@ export function AppContextProvider({ children }: any) {
   const [Color, setColor] = useState(); //B: Black, R: Red, Y: Yellow
   const [answer, setAnswer] = useState("25000");
   const [Prize, setPrize] = useState("25000");
-  const [answerColor, setAnswerColor] = useState("R");
+  const [answerColor, setAnswerColor] = useState("Y");
 
   const contextValue = {
     CPR,
